@@ -1,0 +1,35 @@
+integer varFirst = input("enter first number");
+integer varSecond = input("enter second number");
+
+if(varFirst == varSecond)
+{
+print(varFirst, "is equal to", varSecond);
+} else {
+	if(varFirst != varSecond)
+	{
+		println(varFirst, "is not equal to", varSecond);
+	}
+}
+
+if(varFirst > varSecond)
+{
+print(varFirst, "is greater than", varSecond);
+} else {
+	if (varFirst < varSecond) {
+		println(varFirst, "is less than", varSecond);
+	}
+}
+
+if(varFirst >= varSecond)
+{
+println(varFirst, "is greater than or equal to", varSecond);
+} else {
+println(varFirst, "is less than", varSecond);
+}
+
+if(varFirst <=varSecond)
+{
+println(varFirst, "is less than or equal to", varSecond);
+} else {
+println(varFirst, "is greater than", varSecond);
+}

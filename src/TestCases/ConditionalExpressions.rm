@@ -1,0 +1,31 @@
+boolean arr1 = [false, true];
+
+println("AND Table: ");
+
+foreach(boolean i in arr1)
+{
+	foreach(boolean j in arr1)
+	{
+		println(i , " and ", j, " : ", (i&&j));
+	}
+}
+
+println("OR Table: ");
+
+foreach(boolean i in arr1)
+{
+	foreach(boolean j in arr1)
+	{
+		println(i , " or ", j, " : ", (i||j));
+	}
+}
+
+println("XOR Table: ");
+
+foreach(boolean i in arr1)
+{
+	foreach(boolean j in arr1)
+	{
+		println(i , " xor ", j, " : ", (i^j));
+	}
+}

@@ -1,0 +1,12 @@
+integer t = 3;
+t = t+3;
+integer q = t - 5;
+q = q *5;
+integer f = q/2;
+integer p = f **3;
+integer r = ((2*p)+6)/3;
+println(r);
+
+float a = input("enter float:");
+float b = (((3*a)**2)/6)+2;
+println(b);

@@ -1,0 +1,21 @@
+$Sum of array element using foreach
+
+integer arr = [2,5,7,12,23,37,45];
+integer sum = 0;
+
+foreach(integer i in arr)
+{
+	sum = sum + i;
+}
+println("sum of the array is: ", sum);
+$Maximum marks
+integer marks = [34, 45, 65, 89, 93, 39, 48, 52];
+integer max = 0;
+foreach(integer mark in marks) 
+{
+	if (mark > max)
+    {
+    	max = mark;
+    }
+}
+print("The highest score is : ", max);

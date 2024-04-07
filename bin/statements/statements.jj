@@ -1,0 +1,891 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
+ *//*options{  static = true;} */
+options {
+  LOOKAHEAD = 2;
+  CHOICE_AMBIGUITY_CHECK = 2;
+  OTHER_AMBIGUITY_CHECK = 1;
+  STATIC = false;
+  DEBUG_PARSER = false;
+  DEBUG_LOOKAHEAD = false;
+  DEBUG_TOKEN_MANAGER = false;
+  ERROR_REPORTING = true;
+  JAVA_UNICODE_ESCAPE = false;
+  UNICODE_INPUT = false;
+  IGNORE_CASE = false;
+  USER_TOKEN_MANAGER = false;
+  USER_CHAR_STREAM = false;
+  BUILD_PARSER = true;
+  BUILD_TOKEN_MANAGER = true;
+  SANITY_CHECK = true;
+  FORCE_LA_CHECK = true;
+}PARSER_BEGIN(statements)package statements;
+import expression.*;
+import supportingpackages.*;
+import expression.literal.*;
+import expression.arithmetic.*;
+import expression.logical.*;
+import expression.relational.*;
+import statementparser.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class statements{  public static void main(String args []) throws ParseException, TokenMgrError, NumberFormatException   {    statements parser = new statements(System.in);
+    /*    while (true)    {      System.out.println("Reading from standard input...");      System.out.print("Enter an expression like \"1+(2+3)*4;\" :");      try      {        switch (statements.one_line())        {          case 0 :           System.out.println("OK.");          break;          case 1 :           System.out.println("Goodbye.");          break;          default :           break;        }      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        statements.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }    } */
+	Statement lastStatement;  }}PARSER_END(statements)SKIP :{" "|  "\r"| "\t"
+| "\n"}
+//SKIP : /* COMMENTS */
+//{
+//  <SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+//| <FORMAL_COMMENT: "/**" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+//| <MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+//}
+
+SPECIAL_TOKEN : /* COMMENTS */
+{
+  <SINGLE_LINE_COMMENT: "$" (~["\n","\r"])* ("\n"|"\r"|"\r\n")?>
+//| <FORMAL_COMMENT: "$$" (~["$"])* "$" ("$" | (~["$","$"] (~["$"])* "$"))* "$">
+| <MULTI_LINE_COMMENT: "$$" (~["$"])* "$" ("$" | (~["$","$"] (~["$"])* "$"))* "$">
+}
+
+//SKIP : {
+//  <SINGLE_LINE_COMMEN>
+//| <FORMAL_COMMENT>
+//| <MULTI_LINE_COMMENT>
+//}
+
+TOKEN : /* SPECIALCHARACTERS */
+{ < COMMA : "," >
+| < AT : "@" > 
+| < FULLSTOP : "." > 
+| < UNDERSCORE : "_" > 
+| < SINGLEQUOTE : "'" >
+| < VERTICALBAR : "|" > 
+| < DOUBLEQUOTE : "\"" > 
+| < AMPERSAND : "&" >
+| < BAKCSLASH : "\\" > 
+| < EQUALSTO : "=" > 
+| < HASH : "#" > 
+| < COLON : ":" > 
+| < SEMICOLON : ";" > 
+| < QUESTIONMARK : "?" >
+}
+TOKEN : /* OPERATORS */{  < PLUS : "+" >| < MINUS : "-" >| < MULTIPLY : "*" >| < DIVIDE : "/" >
+| < POWER: "**" >
+| < MODULUS : "%" >}TOKEN : /* Keywords */
+{
+  < IF: "if" >
+| < ELSE: "else" >
+| < PRINT: "print" >
+| < PRINTLN: "println" >
+| < FOREACH: "foreach" >
+| < WHILE: "while" >
+| < FUNCTION: "function" >
+| < RETURN: "return" >
+| < PROCEDURE: "procedure" >
+| < INPUT: "input" >
+| < IN: "in" >
+}
+
+TOKEN: {
+< OBJECTTYPE: "integer" | "float" | "string" | "boolean">
+}
+
+
+//Full names for declaration of type
+
+TOKEN: { < TRUE: "true" > }
+TOKEN: {  < FALSE: "false" > }
+TOKEN: { < VOID: "void" > }
+//TOKEN: { < STRING: ( < LETTER > | < CONSTANT > | < SPECIALCHARACTERS > )+ | "\0" > }
+//TOKEN : { < EMPTY: " " > }TOKEN :{  < CONSTANT : ["1" - "9"] (["0" - "9"])* | "0" >
+//| < LETTER: ["a" - "z", "A"-"Z", "_"] >
+//| < VARIABLENAME: < LETTER >(< LETTER > | < CONSTANT > | "_")* | "_"(< LETTER >| < CONSTANT >| "_")* >
+| < VARIABLENAME:  (["a" - "z", "A"-"Z", "_"]) ((["a" - "z", "A"-"Z", "_"]) | < CONSTANT >)* >
+
+//| < VARIABLENAME: "a">
+
+| < FLOAT: (< CONSTANT >)+ "." (< CONSTANT >)+ >
+| <STRING: "\"" (~["\""])* "\"" >
+//| < STRING : < DOUBLEQUOTE >(<LETTER> | <SPECIALCHARACTERS> | <CONSTANT> | <EMPTY> )* < DOUBLEQUOTE>  >
+| < SPECIALCHARACTERS: "@" | "." |"-" | "_" |"‘" | "%" | "+"| "*"| "#" |"$" | ":">
+}
+
+
+//TOKEN: { < VARIABLENAME: ["a"-"z","A"-"Z"](["a"-"z","A"-"Z"])* > }
+
+//TOKEN: { <EMPTY : ""> }
+
+//TOKEN://array
+//{
+ // < ARRAYEXPR: (< CONSTANT> ("," < CONSTANT >)*) | (< STRING > ("," < STRING >)*) | (< FLOAT > ("," < FLOAT >)*) > 
+//}
+
+TOKEN:
+{
+  < LP : "(" >
+| < RP : ")" >
+| < LGP : "{" >
+| < RGP : "}" >
+| < LSP : "[" >
+| < RSP : "]" >
+}
+
+TOKEN : /* LOGICALOPERATORS */
+{
+  < AND : "&&" >
+| < OR : "||" >
+| < XOR : "^" >
+| < NOT : "!" >
+}
+
+TOKEN : /* RELATIONALOPERATORS */
+{
+  < GT: ">" >
+| < LT: "<" >
+| < EQ: "==" >
+| < LTE: "<=" >
+| < GTE: ">=" >
+| < NE: "!=" >
+}
+
+//Add concatenation operator 
+//Add comments 
+Statement Start() :
+{
+	Statement s = new EmptyStatement();
+}
+{
+	(s=multiStatement())<EOF>
+	{
+		return s;
+	}
+}
+
+
+Statement multiStatement() :
+{
+	Statement initial = new EmptyStatement();
+	Statement last = initial;
+	Statement next = null;
+}
+{
+	(next=statementParser() {
+		last.next = next;
+		last = next;
+	  })*
+	{
+		return initial;
+
+	}
+}
+
+
+Statement statementParser ():
+{
+   Statement s = null;
+}
+{
+  (
+    LOOKAHEAD(5)
+      s = arrayStatementParser() |
+      LOOKAHEAD (3)
+      s = initializationParser() |
+      LOOKAHEAD (4)
+      s = declarationParser() |
+      s = inputStatementParser() |	
+	  s = assignmentParser() |
+	  s = ifParser() |
+	  s = whileParser() |
+	  s = forEachParser() |
+	  s = functionDeclarationParser() |
+	  s = printStatementParser() |
+	  s = printlnStatementParser() |
+	  s = procedureDeclarationParser() |
+	  s = functionCallStatementParser()  
+	)
+{
+  return s;
+}
+}
+
+
+//Declarations
+Declaration declarationParser() throws NumberFormatException:
+{
+  Identifier id;
+  Expression e;
+  Token t;
+  Declaration d;
+}
+{
+   t = < OBJECTTYPE >
+   id=identifierParser() "=" e=expressionParser() ";"
+
+  {
+    return new Declaration(t.image, id, e);
+  }
+}
+// Initialization
+
+Initialization initializationParser() throws NumberFormatException:
+{
+  Identifier id;
+  Token t;
+}
+{
+  t = < OBJECTTYPE > id=identifierParser() ";"
+  {
+    return new Initialization(t.image, id);
+  }
+}
+//variable assignment
+
+Assignment assignmentParser() throws NumberFormatException:
+{
+  Identifier id;
+  Expression e;
+}
+{
+  
+  id = identifierParser() "=" e = expressionParser() ";"
+
+  {
+    return new Assignment(id,e);
+  }
+}
+
+//Arrays
+ArrayStatement arrayStatementParser() throws NumberFormatException:
+{
+Identifier id = null;
+Token t = null; 
+Literal l = null;
+List<Expression> literalList = null;
+}
+{
+t = < OBJECTTYPE > id=identifierParser() < EQUALSTO > < LSP >
+      { literalList = new ArrayList<Expression>(); }
+      (
+        l = literalParser()
+        { literalList.add(l); }
+        (
+          <COMMA>
+          l = literalParser()
+          { literalList.add(l); }
+        )*
+      ) 
+      < RSP > ";"
+
+{ 
+    return new ArrayStatement(t.image, id, literalList);
+}
+}
+
+
+
+//Print
+
+PrintStatement printStatementParser() throws NumberFormatException:
+{
+Expression e = null;
+List<Expression> eList = null;
+}
+{
+< PRINT > < LP >
+      { eList = new ArrayList<Expression>(); }
+      (
+        e = expressionParser()
+        { eList.add(e); }
+        (
+          <COMMA>
+          e = expressionParser()
+          { eList.add(e); }
+        )*
+      ) 
+      < RP > ";"
+
+{ 
+    return new PrintStatement(eList);
+}
+}
+//Print with next line
+
+PrintLnStatement printlnStatementParser() throws NumberFormatException:
+{
+  Expression e = null;
+  List< Expression > eList = null;
+}
+{
+  < PRINTLN > < LP >
+  { eList = new ArrayList<Expression>(); }
+      (
+        e = expressionParser()
+        { eList.add(e); }
+        (
+          <COMMA>
+          e = expressionParser()
+          { eList.add(e); }
+        )*
+      ) 
+      < RP > ";"
+   {
+     return new PrintLnStatement(eList);
+   }
+}
+
+//Input Statement
+
+InputStatement inputStatementParser() throws NumberFormatException:
+{
+  Token type;
+  StringLiteral msg;
+  Identifier id;
+}
+{
+  type= < OBJECTTYPE > id = identifierParser() < EQUALSTO > < INPUT > < LP > msg = stringLiteralParser()  < RP > ";"
+  {
+    return new InputStatement(type.image, id, msg);
+  }
+}
+
+
+
+//IF&While
+
+IfExpression ifParser():
+{
+  Expression condition = null;
+  Statement thenStatement = new EmptyStatement();
+  Statement elseStatement = new EmptyStatement();
+}
+{
+  (
+	<IF> <LP> condition=expressionParser() <RP><LGP> 
+	thenStatement=multiStatement() 
+	<RGP> [ <ELSE> 
+	<LGP> 
+	elseStatement=multiStatement() 
+	<RGP>]
+	)
+{
+  return new IfExpression(condition, thenStatement, elseStatement);
+}   }
+
+
+WhileExpression whileParser():
+{
+  Expression condition = null;
+  Statement statement = new EmptyStatement();
+}
+{
+  (
+	  <WHILE> <LP> condition=expressionParser() <RP><LGP> 
+	statement=multiStatement() 
+	<RGP>
+	)
+{
+  return new WhileExpression(condition, statement);}}
+
+//Foreach Expression 
+ForEachExpression forEachParser():
+{
+Identifier variablename;
+Identifier arrayname;
+Statement statement = new EmptyStatement();
+Token type; 
+} 
+{
+	(
+	<FOREACH> <LP> type= < OBJECTTYPE > variablename=identifierParser() < IN > arrayname=identifierParser()
+	<RP> <LGP> 
+	statement=multiStatement() 
+	<RGP> )
+{
+  return new ForEachExpression(type.image, variablename, arrayname, statement);
+}
+}
+
+
+//Return
+
+Return returnParser() throws NumberFormatException:
+{
+  Expression e;
+  Identifier id;
+  ReturnInteger r;
+}
+{
+  < RETURN > id = identifierParser() ";"
+  {
+    return new Return(id);
+  }
+}
+
+
+//Function & Procedure Declaration
+
+
+FunctionDeclaration functionDeclarationParser() throws NumberFormatException:
+{
+  Identifier id;
+  FormalParameter fp;
+  Statement s;
+  Token type;
+  Return r;
+}
+{
+  type = < OBJECTTYPE > <FUNCTION > id = identifierParser() < LP > fp = multiFormalParameter() < RP > < LGP > 
+  s=multiStatement()
+  r = returnParser()
+  < RGP >
+  {
+    return new FunctionDeclaration(type.image, id, fp, s, r);
+   
+  }
+}
+
+ProcedureDeclaration procedureDeclarationParser() throws NumberFormatException:
+{
+  Identifier id;
+  FormalParameter fp;
+  Statement s;
+  Token type;
+}
+{
+  type = < VOID > <FUNCTION > id = identifierParser() < LP > fp = multiFormalParameter() < RP > < LGP > 
+  s=multiStatement()
+  < RGP >
+  {
+    return new ProcedureDeclaration(type.image, id, fp, s);
+  }
+}
+
+FormalParameter multiFormalParameter () throws NumberFormatException:
+{
+  FormalParameter initial= null;
+  FormalParameter last =null;
+  FormalParameter next =null;
+}
+{
+   [ last = formalParameterParser() ("," next = formalParameterParser())* {
+
+     	if(initial == null)
+     	{
+     	  initial = last;
+     	}
+     	last.next = next;
+     	last = next;
+   }]
+   {
+     return initial;
+   }
+}
+
+FormalParameter formalParameterParser() throws NumberFormatException:
+{
+  Identifier i ;
+  Token type;
+}
+{
+  type = < OBJECTTYPE > i = identifierParser()
+  {
+    return new FormalParameter(type.image, i);
+  }
+}
+
+
+
+//Function calling
+
+
+FunctionCallExpression functionCallParser() throws NumberFormatException:
+{
+  ActualParameter ap=null;
+  Identifier id;
+  Expression e=null;
+}
+{
+  (
+    id = identifierParser() < LP > ap = actualParameterParseMulti() < RP >
+  )
+  {
+    return new FunctionCallExpression(id, ap);
+  }
+}
+
+
+
+ActualParameter actualParameterParseMulti() throws NumberFormatException:
+{
+  ActualParameter initial = null;
+  ActualParameter last = null;
+  ActualParameter next = null;
+}
+{
+  (
+    [ last = actualParameterParser() ("," next = actualParameterParser())* {
+      	if(initial == null)
+      	{
+      	  initial = last;
+      	}
+      	last.next = next;
+      	last= next;
+  	}]  )
+  {
+    return initial;
+  }
+}
+ActualParameter actualParameterParser() throws NumberFormatException:
+{
+  Expression e;
+}
+{
+  (
+    e = expressionParser()  )
+  {
+    return new ActualParameter(e);
+  }
+}
+
+
+//Procedures calling
+FunctionCallStatement functionCallStatementParser() throws NumberFormatException:
+{
+  ActualParameter ap = null;
+  Identifier id;
+}
+{
+  (
+    id = identifierParser() < LP > ap = actualParameterParseMulti() < RP > ";"  )
+  {
+    return new FunctionCallStatement(id,ap);
+  }
+}
+
+
+
+//Variable Declaration
+/*
+Declaration declarationParser() throws NumberFormatException:
+{
+  Identifier id;
+  Expression e;
+  String type;
+}
+{
+  type=typeParser() id=identifierParser() "=" e = expressionParser() ";"
+  {
+    return new Declaration(type, id, e);
+  }
+} */
+
+
+
+
+  
+
+//Arithmetic
+Expression expressionParser() throws NumberFormatException:
+{
+  Expression e;
+}
+{ 
+  (
+    e = ArithmeticExpression()  )
+{
+  return e;
+}
+}
+
+Expression ArithmeticExpression() throws NumberFormatException :
+{
+	Expression left;
+	Expression right;
+}
+{
+  left=ArithmeticTerm1()
+  (
+    (
+      < PLUS > right=ArithmeticTerm1()    { left = new Addition(left,right); }
+    | < MINUS > right=ArithmeticTerm1()    { left = new Subtraction(left,right); }
+    )
+  )*
+  { return left; }
+}
+
+
+Expression ArithmeticTerm1() :
+{
+  	Expression left;
+	Expression right;
+}
+{
+  left=ArithmeticTerm2()
+  (
+    (
+      < MULTIPLY > right=ArithmeticTerm2()    { left = new Multiplication(left,right); }
+    | < DIVIDE > right=ArithmeticTerm2()    { left = new Division(left,right); }
+    | < MODULUS > right=ArithmeticTerm2()    { left = new Modulus(left,right); } 
+    )
+  )*
+  { return left; }
+}
+
+
+Expression ArithmeticTerm2() :
+{
+	Expression left = null;
+  }
+{
+  (
+    < MINUS > left = ArithmeticTerm3() { left = new Negative(left); }
+  	|       left = ArithmeticTerm3() 
+  )
+  {
+    return left; 
+  }
+} 
+
+
+Expression ArithmeticTerm3() :
+{ 
+    Expression left;
+	Expression right;
+}
+{
+  left=RelationalExpression()
+  (
+    (
+    < POWER > right=RelationalExpression() { left = new Power(left,right); }
+    )
+  )*
+  { return left; }
+}
+
+
+
+/*Expression ArithmethicTerm4() :
+{
+Expression e; 
+}
+{
+	(
+	  	 <LP> e = ArithmethicExpression() <RP> 	  
+	 	| e = functionCallExpressionParser()
+		| e = literalParser()
+		| e = variableParser()
+	)
+	{
+	  return e;
+	}
+} */
+
+
+
+//Relational
+Expression RelationalExpression():
+{
+	Expression left;
+	Expression right;
+  }
+{
+  left = LogicalExpression()
+  (
+    (< LT > right = LogicalExpression()) { left = new LessThan(left,right); }
+  | (< LTE > right = LogicalExpression()) { left = new LessEqual(left,right); }
+  | (< GTE > right = LogicalExpression()) { left = new GreaterEqual(left,right); }
+  | (< GT > right = LogicalExpression()) { left = new GreaterThan(left,right); }
+  | (< EQ > right = LogicalExpression()) { left = new Equal(left,right); }
+  | (< NE > right = LogicalExpression()) { left = new NotEqual(left,right); }
+  )*
+  {
+    return left;
+  }
+}
+
+
+
+/*Expression RelationalTerm1(): 
+{
+Expression e;
+}
+{
+	(
+	  	<LP> e = RelationalExpression() <RP>
+		| e = ArithmethicExpression()
+	 	| e = functionCallExpressionParser()
+		| e = literalParser()
+		| e = variableParser()
+	)
+	{
+	  return e;
+	}
+} */
+
+
+
+
+//Logical
+Expression LogicalExpression() :
+{
+	Expression left;
+	Expression right;
+  }
+{
+  left = LogicalTerm1()
+  (
+    (< OR > right = LogicalTerm1()) { left = new Or(left,right); }
+  | (< XOR > right = LogicalTerm1()) { left = new Xor(left,right); }
+    
+  )*
+  {
+    return left;
+  }
+}
+
+Expression LogicalTerm1() :
+{
+	Expression left;
+	Expression right;
+  }
+{
+  left = LogicalTerm2()
+  (
+    (< AND > right = LogicalTerm2()) { left = new And(left,right); }
+  )*
+  {
+    return left;
+  }
+}
+
+
+Expression LogicalTerm2() :
+{
+	Expression left = null;
+  }
+{
+  (
+    < NOT > left = LogicalTerm3() { left = new Not(left); }
+  	|       left = LogicalTerm3() 
+  )
+  {
+    return left; 
+  }
+}
+
+Expression LogicalTerm3() :
+{
+Expression e;
+}
+{
+	( 
+	 LOOKAHEAD(2)
+	  e = functionCallParser()
+		| e = literalParser()
+		| e = variableParser()
+		| e = arrayParser() 
+		| <LP> e = expressionParser() <RP> 
+	)
+	{
+	  return e;
+	}
+}
+
+
+
+//Type Literals
+Literal literalParser() throws NumberFormatException:
+{
+  Literal l;
+}
+{
+  (
+    l= floatingLiteralParser()
+  | l = integerLiteralParser()
+  | l = booleanLiteralParser()
+  | l= stringLiteralParser()  )
+  {
+    return l;
+  }
+}
+
+IntegerLiteral integerLiteralParser() throws NumberFormatException:
+{
+  Token t;
+}
+{
+  t = < CONSTANT > { return new IntegerLiteral(Integer.parseInt(t.image)); }
+}
+
+BooleanLiteral booleanLiteralParser() throws NumberFormatException:
+{
+  Token t;
+}
+{
+  t= < TRUE > {return new BooleanLiteral(true); } |
+  t= < FALSE > { return new BooleanLiteral(false);}
+}
+
+FloatingPointLiteral floatingLiteralParser() throws NumberFormatException:
+{
+  Token t;
+}
+{
+  t = < FLOAT > { return new FloatingPointLiteral(Double.parseDouble(t.image)); }
+}
+
+
+StringLiteral stringLiteralParser() throws NumberFormatException:
+{
+  Token t;
+  int len;
+}
+{
+   t = < STRING >
+   { len = t.image.length(); }
+   { return new StringLiteral(t.image.substring(1,len-1));}
+}
+
+
+
+Identifier identifierParser() throws NumberFormatException:
+{
+  Token t;
+}
+{
+  t = <VARIABLENAME>
+  {
+    return new Identifier(t.image);
+  }
+}
+
+Expression variableParser() throws NumberFormatException:
+{
+  Identifier id;
+}
+{
+  (
+    id = identifierParser()  )
+  {
+    return new Variable(id);
+  }  
+}
+
+
+
+
+Expression arrayParser() throws NumberFormatException:
+{
+  Identifier id;
+}
+{
+  (
+    id = identifierParser()
+  )
+  {
+    return new Array(id);
+  }  
+} 
+
+

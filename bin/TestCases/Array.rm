@@ -1,0 +1,25 @@
+integer arr=[1,2,3,4];
+println("int array is:", arr);
+
+string str_arr=["rabiea", "mashal", "afeefa", "yousra"];
+println("string array is:", str_arr);
+
+
+float float_arr=[10.8, 11.2, 13.6, 18.9, 6.7];
+println("float array is: ", float_arr);
+
+boolean bool_arr=[true, false, false, true];
+println("boolean array is: ", bool_arr);
+
+println("printing integer array value:");
+foreach(integer i in arr)
+{
+println("value is : ", i);
+}
+
+println("printing string array value:");
+
+foreach(string f in str_arr)
+{
+println("value is: " ,f);
+}

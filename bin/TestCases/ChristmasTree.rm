@@ -1,0 +1,41 @@
+integer height = 4;
+integer width = 4;
+
+integer space = width*height;
+integer x =1;
+integer a =1;
+while(a<=height){
+	integer i = x;
+	while(i<=width){
+		integer j = space;
+		while(j>=i){
+			print(" ");
+			j=j-1;
+		}
+		integer k = 1;
+		while(k<=i) {
+			print("* ");
+			k=k+1;
+		}
+		println("");
+		i=i+1;
+	}
+	x = x+2;
+	width = width +2;
+	a=a+1;
+}
+integer s = 1;
+while(s<=(height-1)){
+	integer q = space -3;
+	while(q>=0){
+		print(" ");
+		q = q-1;
+	}
+	integer w = 1;
+	while(w<=(height-1)){
+		print("* ");
+		w=w+1;
+	}
+	println("");
+	s=s+1;
+}

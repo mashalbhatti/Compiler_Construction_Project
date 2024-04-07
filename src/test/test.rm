@@ -1,0 +1,11 @@
+$$integer a =input("enter:");
+integer b = 10;
+integer c;
+c=3;
+println(a);
+println(b);
+println(c);$$
+
+boolean i = (false && true);
+print(i);
+

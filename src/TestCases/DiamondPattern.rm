@@ -1,0 +1,45 @@
+ integer i = 1; 
+ integer j = 1; 
+ integer space = 1;
+ 
+ integer n = input("Enter the number of rows: ");
+
+ space = n-1; 
+
+integer j = 1; 
+while(j<=n){
+	integer x=1; 
+	while(x<=space){
+		print(" "); 
+		x=x+1; 
+	}
+	space = space -1; 
+	integer y=1; 
+	while(y<=((2*j)-1)){
+		print("*"); 
+		y = y+1;  
+	}
+	println(""); 
+	j = j + 1; 
+}
+
+space = 1; 
+
+
+integer z = 1; 
+while(z<=n){
+	integer k=1; 
+	while(k<=space){
+		print(" "); 
+		k=k+1; 
+	}
+	space = space + 1; 
+	integer l=1; 
+	while(l<=(2*(n-z)-1)){
+		print("*"); 
+		l = l+1;  
+	}
+	println(""); 
+	z = z + 1; 
+}
+

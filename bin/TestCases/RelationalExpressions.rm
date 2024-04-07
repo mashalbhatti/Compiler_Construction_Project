@@ -1,0 +1,20 @@
+integer a = input("enter first number: ");
+integer b = input("enter second number: ");
+
+boolean c = a>b;
+println("is ", a, " is greater than ", b , "? ", c);
+
+boolean d = a<b;
+println("is ", a, " is less than ", b , "? ", d);
+
+boolean e = a<=b;
+println("is ", a, " is less than or equal to ", b , "? ", e);
+
+boolean f = a>=b;
+println("is ", a, " is greater than or equal to ", b , "? ", f);
+
+boolean g = a==b;
+println("is ", a, " is equal to ", b , "? ", g);
+
+boolean h = a!=b;
+println("is ", a, " is not equal to ", b , "? ", h);

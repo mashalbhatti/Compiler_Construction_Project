@@ -1,0 +1,12 @@
+void function compare(integer param1, integer param2)
+{
+	if(param1 > param2)
+	{
+		println(param1, "is greater than", param2);
+	} else {
+		println(param1, "is not greater than", param2);
+	} 
+}
+
+compare(10, 13);
+

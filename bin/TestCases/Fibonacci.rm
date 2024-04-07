@@ -1,0 +1,18 @@
+integer n1=0;
+integer n2=1;
+integer n3=0; 
+integer count=input("Count");  
+print(n1); 
+print(n2); 
+integer i=2; 
+
+
+
+while(i<count){ 
+  n3=n1+n2;    
+  print(n3); 
+  n1=n2;    
+  n2=n3; 
+  i=i+1; 
+}
+

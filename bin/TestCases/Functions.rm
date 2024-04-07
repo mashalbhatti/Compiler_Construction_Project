@@ -1,0 +1,46 @@
+integer function sum_int(integer param1, integer param2)
+{
+	integer result = param1 + param2;
+	return result;
+}
+
+float function sum_float(float param1, float param2)
+{
+	float result = param1 + param2;
+	return result;
+}
+
+boolean function compare_int(integer param1, integer param2)
+{
+	boolean result = false;
+	if(param1 == param2)
+	{
+		result = true;
+	} else {
+		result = false;
+	}
+	return result;
+}
+
+string function compare_string(string param1, string param2)
+{
+	string result = "er";
+	if(param1 == param2)
+	{
+     	result = "same";
+	} else {
+		result = "notsame";
+	}
+	return result;
+}
+
+
+integer res_sum = sum_int(12, 5);
+float res_float = sum_float(2.4, 5.6);
+boolean res_bool = compare_int(12,12);
+string res_string = compare_string("hello", "hello");
+
+println("integer sum result: ", res_sum);
+println("float sum result: ", res_float);
+println("boolean comparison result: ", res_bool);
+println("string comparison result: ", res_string);
